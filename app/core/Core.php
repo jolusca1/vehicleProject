@@ -17,4 +17,10 @@ class Core
             echo "404 - Página não encontrada.";
         }
     }
+
+    public function render($view, $data = [])
+    {
+        extract($data); // Transforma as chaves do array em variáveis
+        require __DIR__ . "/../views/$view.php";
+    }
 }
