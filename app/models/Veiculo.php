@@ -27,12 +27,15 @@ class Veiculo
             $this->valor = $result['valor'];
         }
 
-        return $result
+        return $result;
     }
 
-    public function saveVeiculo(VeiculoDTO $veiculo)
+    public function saveVeiculo(VeiculoDTO $veiculoDTO)
     {
-        if ($this->id)
+        // Verificando se já existe um veículo cadastrado
+        $veiculo = $this->findVeiculoById($veiculoDTO->getId());
+
+        if ($veiculo)
         {
             $sql = "UPDATE tbl_veiculos SET marca = :marca, modelo = :modelo, ano = :ano, preco = :preco WHERE id = :id";
         } else
@@ -41,12 +44,12 @@ class Veiculo
         }
 
         $stmt = Database::connect()->prepare($sql);
-        $stmt->bindValue(':marca', $veiculo->getMarca());
-        $stmt->bindValue(':modelo', $veiculo->getModelo());
-        $stmt->bindValue(':ano', $veiculo->getAno());
-        $stmt->bindValue(':valor', $veiculo->getValor());
+        $stmt->bindValue(':marca', $veiculoDTO->getMarca());
+        $stmt->bindValue(':modelo', $veiculoDTO->getModelo());
+        $stmt->bindValue(':ano', $veiculoDTO->getAno());
+        $stmt->bindValue(':valor', $veiculoDTO->getValor());
 
-        if (!$this->id)
+        if (!$veiculoDTO->getId())
         {
             $this->id = Database::connect()->lastInsertId();
         }
