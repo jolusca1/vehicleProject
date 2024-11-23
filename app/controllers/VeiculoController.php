@@ -12,7 +12,8 @@ class VeiculoController
         $this->router = $router;
     }
 
-    public function index()
+    public function index($id)
     {
-        $veiculos = Veiculo
+        $veiculo = new Veiculo();
+        $veiculo->findVeiculoById($id);
 }
